@@ -238,7 +238,7 @@ if "%lng%"=="cn" (
     echo       A to normal,B to int4,C to local model[put in ChatGLM-webui]
     echo       if your computer have less than 16G RAM or 8G VRAM, you must choose int4. 
   )
-    choice -n -c ab >nul
+    choice -n -c abc >nul
         if errorlevel == 3 (
           set /p MODELVER=type model name:
 		  goto :done
