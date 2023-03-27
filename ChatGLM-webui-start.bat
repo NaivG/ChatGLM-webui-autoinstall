@@ -166,14 +166,16 @@ if exist software\gcc-installer.exe (
        del /q software\gcc-installer.exe
     )
   )
-aria2c.exe --max-connection-per-server=16 --min-split-size=1M --dir software --out gcc-installer.exe https://udomain.dl.sourceforge.net/project/tdm-gcc/v9.2.0-tdm64-1/tdm64-gcc-9.2.0.exe
+aria2c.exe --max-connection-per-server=16 --min-split-size=1M --dir software --out gcc-installer.exe https://nchc.dl.sourceforge.net/project/tdm-gcc/TDM-GCC%20Installer/tdm64-gcc-5.1.0-2.exe
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 正在安装gcc...
     echo %YW%[WARN] %WT% 安装完成后重新打开程序。
+    echo %YW%[WARN] %WT% 安装时请勾选OpenMP。
     echo %YW%[WARN] %WT% 若安装程序未运行，大概率为下载失败，请重新打开程序。
   ) else (
     echo %GN%[INFO] %WT% Installing gcc...
     echo %YW%[WARN] %WT% Complete the installation and reopen the program.
+    echo %YW%[WARN] %WT% Before install,check OpenMP in gcc sort.
     echo %YW%[WARN] %WT% If the installation program is not running, the likely rate is that the download failed. Please reopen the program.
   )
 software\gcc-installer.exe
