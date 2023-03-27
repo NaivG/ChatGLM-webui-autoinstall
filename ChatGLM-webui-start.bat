@@ -231,14 +231,18 @@ goto :torchnext
 :torchnext
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 请选择模型版本（版本不互通）
-    echo       原版选择a，int4选择b
+    echo       原版选择a，int4选择b，本地模型文件夹（放置在ChatGLM-webui内）选择c
     echo       配置不高请选择int4
   ) else (
     echo %GN%[INFO] %WT% Choose model version.
-    echo       A to normal,B to int4
+    echo       A to normal,B to int4,C to local model[put in ChatGLM-webui]
     echo       if your computer have less than 16G RAM or 8G VRAM, you must choose int4. 
   )
     choice -n -c ab >nul
+        if errorlevel == 3 (
+          set /p MODELVER=type model name:
+		  goto :done
+        )   
         if errorlevel == 2 (
           echo %GN%[INFO] %WT% 已选择int4版。
           set MODELVER=INT4
