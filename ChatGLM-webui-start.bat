@@ -166,7 +166,7 @@ if exist software\gcc-installer.exe (
        del /q software\gcc-installer.exe
     )
   )
-aria2c.exe --max-connection-per-server=16 --min-split-size=1M --dir software --out gcc-installer.exe https://nchc.dl.sourceforge.net/project/tdm-gcc/TDM-GCC%20Installer/tdm64-gcc-5.1.0-2.exe
+aria2c.exe --max-connection-per-server=16 --min-split-size=1M --dir software --out gcc-installer.exe https://nchc.dl.sourceforge.net/project/tdm-gcc/TDM-GCC%%20Installer/tdm64-gcc-5.1.0-2.exe
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 正在安装gcc...
     echo %YW%[WARN] %WT% 安装完成后重新打开程序。
