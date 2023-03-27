@@ -20,6 +20,8 @@ python --version
 if errorlevel 1 goto :installpy
 git --version
 if errorlevel 1 goto :installgit
+gcc --version
+if errorlevel 1 goto :installgcc
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 更新脚本中...
   ) else (
