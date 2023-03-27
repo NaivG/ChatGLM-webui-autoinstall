@@ -240,7 +240,7 @@ if "%lng%"=="cn" (
   )
     choice -n -c abc >nul
         if errorlevel == 3 (
-          set /p MODELVER=type model name:
+          set /p model=type model name:
 		  goto :done
         )   
         if errorlevel == 2 (
@@ -321,12 +321,12 @@ echo model=%model%)>installed.ini
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 是否现在启动？[Y,N]
   ) else (
-    echo %GN%[INFO] %WT% Boot sdwebui now?[Y,N]
+    echo %GN%[INFO] %WT% Boot webui now?[Y,N]
   )
     choice -n -c yn >nul
         if errorlevel == 2 goto :end
         if errorlevel == 1 (
-		cd stable-diffusion-webui
+		cd ChatGLM-webui
 		goto :start
 		)
 goto :end
