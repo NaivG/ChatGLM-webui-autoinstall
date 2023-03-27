@@ -76,7 +76,7 @@ if "%lng%"=="cn" (
 set COMMANDLINE_ARGS=%ARGS% --model-path %model% --listen
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-python webui.py
+python webui.py %COMMANDLINE_ARGS%
 if errorlevel 1 set errcode=0x0101 running error & goto :runerr
 goto :end
 
@@ -148,6 +148,33 @@ if "%lng%"=="cn" (
     echo %YW%[WARN] %WT% If the installation program is not running, the likely rate is that the download failed. Please reopen the program.
   )
 software\git-installer.exe /SILENT /NORESTART
+echo 按任意键退出。
+pause>nul
+exit
+
+:installgcc
+md software
+if "%lng%"=="cn" (
+    echo %GN%[INFO] %WT% 正在下载gcc...
+  ) else (
+    echo %GN%[INFO] %WT% Downloading gcc...
+  )
+if exist software\gcc-installer.exe (
+    if not exist software\gcc-installer.exe.aria2 (
+       del /q software\gcc-installer.exe
+    )
+  )
+aria2c.exe --max-connection-per-server=16 --min-split-size=1M --dir software --out gcc-installer.exe https://udomain.dl.sourceforge.net/project/tdm-gcc/v9.2.0-tdm64-1/tdm64-gcc-9.2.0.exe
+if "%lng%"=="cn" (
+    echo %GN%[INFO] %WT% 正在安装gcc...
+    echo %YW%[WARN] %WT% 安装完成后重新打开程序。
+    echo %YW%[WARN] %WT% 若安装程序未运行，大概率为下载失败，请重新打开程序。
+  ) else (
+    echo %GN%[INFO] %WT% Installing gcc...
+    echo %YW%[WARN] %WT% Complete the installation and reopen the program.
+    echo %YW%[WARN] %WT% If the installation program is not running, the likely rate is that the download failed. Please reopen the program.
+  )
+software\gcc-installer.exe
 echo 按任意键退出。
 pause>nul
 exit
@@ -231,18 +258,23 @@ goto :torchnext
 :torchnext
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 请选择模型版本（版本不互通）
-    echo       原版选择a，int4选择b，本地模型文件夹（放置在ChatGLM-webui内）选择c
-    echo       配置不高请选择int4
+    echo       原版选择a，int4选择b，int4-qe选择c，本地模型文件夹（放置在ChatGLM-webui内）选择d
+    echo       配置不高请选择int4或qe
   ) else (
     echo %GN%[INFO] %WT% Choose model version.
-    echo       A to normal,B to int4,C to local model[put in ChatGLM-webui]
-    echo       if your computer have less than 16G RAM or 8G VRAM, you must choose int4. 
+    echo       A to normal,B to int4,C to int4-qe,D to local model[put in ChatGLM-webui]
+    echo       if your computer have less than 16G RAM or 8G VRAM, you must choose int4 or below. 
   )
-    choice -n -c abc >nul
-        if errorlevel == 3 (
+    choice -n -c abcd >nul
+        if errorlevel == 4 (
           set /p model=type model name:
 		  goto :done
         )   
+        if errorlevel == 3 (
+          echo %GN%[INFO] %WT% 已选择int4-qe版。
+          set MODELVER=INT4QE
+		  goto :modelnext
+        )
         if errorlevel == 2 (
           echo %GN%[INFO] %WT% 已选择int4版。
           set MODELVER=INT4
@@ -255,9 +287,18 @@ if "%lng%"=="cn" (
 		  )
 :modelnext
 echo %GN%[INFO] %WT% Download model...
+if "%MODELVER%"=="INT4QE" goto :MODELINT4QE
 if "%MODELVER%"=="INT4" goto :MODELINT4
 if "%MODELVER%"=="N" goto :MODELN
 set errcode=0x1004 install error & goto :err
+
+:MODELINT4QE
+git lfs install
+if errorlevel 1 set errcode=0x1005 install error on %MODELVER% & goto :err
+git clone https://huggingface.co/THUDM/chatglm-6b-int4-qe
+if errorlevel 1 set errcode=0x1005 install error on %MODELVER% & goto :err
+set model=chatglm-6b-int4-qe
+goto :done
 
 :MODELINT4
 git lfs install
