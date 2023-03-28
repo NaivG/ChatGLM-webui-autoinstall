@@ -139,7 +139,8 @@ function setup()
 
     options=(1 "NORMAL"
              2 "INT4"
-             3 "INT4-QE")
+             3 "INT4-QE"
+             4 "local model")
     choice=$(dialog --clear \
                 --backtitle "ChatGLM-webui-autoinstall" \
                 --title "SETUP" \
@@ -160,6 +161,12 @@ function setup()
         3)
          echo 3
          model=chatglm-6b-int4-qe
+         ;;
+        4)
+         echo 4
+         skip_down="1"
+         echo type model name[in ChatGLM-webui]
+         read -r model
          ;;
         "")
          echo canceled by user.
@@ -201,8 +208,16 @@ function setup()
         "${pip_cmd}" install torch==1.13.1+cpu torchvision==0.14.1+cpu basicsr==1.4.2 --extra-index-url https://download.pytorch.org/whl/cpu -i https://pypi.tuna.tsinghua.edu.cn/simple || { printf "\e[1m\e[31m[ERROR] \e[0mInstall failed, aborting...\e\n[0m"; exit 1; }
     fi
     "${pip_cmd}" install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple || { printf "\e[1m\e[31m[ERROR] \e[0mInstall failed, aborting...\e\n[0m"; exit 1; }
-    "${GIT}" lfs install || { printf "\e[1m\e[31m[ERROR] \e[0mInstall failed, aborting...\e\n[0m"; exit 1; }
+    if [ ! "$skip_down" = "1" ] 
+    then
+    "${GIT}" lfs install
     "${GIT}" clone "https://huggingface.co/THUDM/${model}" || { printf "\e[1m\e[31m[ERROR] \e[0mInstall failed, aborting...\e\n[0m"; exit 1; }
+    fi
+    if [ ! -d "$model" ]
+    then
+    printf "\e[1m\e[31m[ERROR] \e[0mCould nut find model path, aborting...\e\n[0m"
+    exit 1
+    fi
 
     options=(1 "none"
              2 "int8"
