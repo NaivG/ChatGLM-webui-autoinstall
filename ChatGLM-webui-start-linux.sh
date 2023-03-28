@@ -30,6 +30,10 @@ if [[ -z "${GIT}" ]]
 then
     export GIT="git"
 fi
+if [[ -z "${GIT_LFS}" ]]
+then
+    export GIT_LFS="git-lfs"
+fi
 
 # Name of the subdirectory (defaults to ChatGLM-webui)
 if [[ -z "${clone_dir}" ]]
@@ -312,7 +316,7 @@ printf "\e[1m\e[32m[INFO] \e[0mUpdating...\n"
 fi
 
 printf "\e[1m\e[32m[INFO] \e[0mCheck program integrity...\n"
-for preq in "${GIT}" "${python_cmd}" "${pip_cmd}" "${dialog_cmd}" "${gcc_cmd}"
+for preq in "${GIT}" "${python_cmd}" "${pip_cmd}" "${dialog_cmd}" "${gcc_cmd}" "${GIT_LFS}"
 do
     if ! hash "${preq}" &>/dev/null
     then
