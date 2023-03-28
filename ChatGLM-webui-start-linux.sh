@@ -197,7 +197,6 @@ function setup()
         "${pip_cmd}" install torch==1.13.1+cpu torchvision==0.14.1+cpu basicsr==1.4.2 --extra-index-url https://download.pytorch.org/whl/cpu -i https://pypi.tuna.tsinghua.edu.cn/simple || { printf "\e[1m\e[31m[ERROR] \e[0mInstall failed, aborting...\e\n[0m"; exit 1; }
     fi
     "${pip_cmd}" install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple || { printf "\e[1m\e[31m[ERROR] \e[0mInstall failed, aborting...\e\n[0m"; exit 1; }
-    "${GIT}" clone "${gitsource}/KichangKim/DeepDanbooru.git" repositories/DeepDanbooru
     "${GIT}" lfs install || { printf "\e[1m\e[31m[ERROR] \e[0mInstall failed, aborting...\e\n[0m"; exit 1; }
     "${GIT}" clone "https://huggingface.co/THUDM/${model}" || { printf "\e[1m\e[31m[ERROR] \e[0mInstall failed, aborting...\e\n[0m"; exit 1; }
 
