@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-#some code is copied from webui.sh
-#WARN:this script tested failed on WSL.
-#     This mean i only tested install req part, not startup part. 
-#     So if u find some bugs,send it to issues.
-
 cd "${PWD}/" || { printf "\e[1m\e[31m[ERROR] \e[0mCan't cd, aborting...\n\e[0m"; exit 1; }
 
 # dialog config
