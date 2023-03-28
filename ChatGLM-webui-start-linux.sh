@@ -28,11 +28,11 @@ fi
 # git executable
 if [[ -z "${GIT}" ]]
 then
-    export GIT="git"
+    GIT="git"
 fi
 if [[ -z "${GIT_LFS}" ]]
 then
-    export GIT_LFS="git-lfs"
+    GIT_LFS="git-lfs"
 fi
 
 # Name of the subdirectory (defaults to ChatGLM-webui)
