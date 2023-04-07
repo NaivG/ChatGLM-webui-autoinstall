@@ -161,24 +161,22 @@ if "%lng%"=="cn" (
   ) else (
     echo %GN%[INFO] %WT% Downloading gcc...
   )
-if exist software\gcc-installer.exe (
-    if not exist software\gcc-installer.exe.aria2 (
-       del /q software\gcc-installer.exe
+if exist software\gcc.7z (
+    if not exist software\gcc.7z.aria2 (
+       del /q software\gcc.7z
     )
   )
-aria2c.exe --max-connection-per-server=16 --min-split-size=1M --dir software --out gcc-installer.exe https://nchc.dl.sourceforge.net/project/tdm-gcc/TDM-GCC%%20Installer/tdm64-gcc-5.1.0-2.exe
+aria2c.exe --max-connection-per-server=16 --min-split-size=1M --dir software --out gcc.7z https://ghproxy.com/https://github.com/brechtsanders/winlibs_mingw/releases/download/12.2.0-16.0.0-10.0.0-ucrt-r5/winlibs-x86_64-posix-seh-gcc-12.2.0-llvm-16.0.0-mingw-w64ucrt-10.0.0-r5.7z
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 正在安装gcc...
     echo %YW%[WARN] %WT% 安装完成后重新打开程序。
-    echo %YW%[WARN] %WT% 安装时请勾选OpenMP。
-    echo %YW%[WARN] %WT% 若安装程序未运行，大概率为下载失败，请重新打开程序。
   ) else (
     echo %GN%[INFO] %WT% Installing gcc...
     echo %YW%[WARN] %WT% Complete the installation and reopen the program.
-    echo %YW%[WARN] %WT% Before install,check OpenMP in gcc sort.
-    echo %YW%[WARN] %WT% If the installation program is not running, the likely rate is that the download failed. Please reopen the program.
   )
-software\gcc-installer.exe
+7z\7z x software\gcc.7z
+echo %YW%[WARN] %WT% 杀软报错请同意。
+setx PATH "%PATH%;%~dp0mingw64\bin"
 echo 按任意键退出。
 pause>nul
 exit
