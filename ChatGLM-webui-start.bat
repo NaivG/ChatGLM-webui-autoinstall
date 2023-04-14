@@ -243,9 +243,6 @@ cd ChatGLM-webui
 echo %GN%[INFO] %WT% 更新pip,setuptools...
 python -m pip install --upgrade pip setuptools -i https://pypi.tuna.tsinghua.edu.cn/simple
 if errorlevel 1 set errcode=0x1011 install error & goto :err
-echo %GN%[INFO] %WT% 安装原版依赖...
-pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-if errorlevel 1 set errcode=0x1001 install error & goto :err
 echo %GN%[INFO] %WT% 安装pytorch...
 if "%TORCHVER%"=="NVIDIA" goto :TORCHNVIDIA
 if "%TORCHVER%"=="CPU" goto :TORCHCPU
@@ -266,6 +263,9 @@ if errorlevel 1 set errcode=0x1003 install error on %TORCHVER% & goto :err
 goto :torchnext
 
 :torchnext
+echo %GN%[INFO] %WT% 安装原版依赖...
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+if errorlevel 1 set errcode=0x1001 install error & goto :err
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 请选择模型版本（版本不互通）
     echo       原版选择a，int4选择b，int4-qe选择c，本地模型文件夹（放置在ChatGLM-webui内）选择d
