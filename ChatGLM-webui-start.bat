@@ -44,6 +44,14 @@ if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% Update successful.
   )
 )
+if "%lng%"=="cn" (
+    echo %GN%[INFO] %WT% 启用python venv...
+  ) else (
+    echo %GN%[INFO] %WT% Activating python venv...
+  )
+if not exist venv\Scripts\activate.bat python -m venv venv
+call venv\Scripts\activate.bat
+
 if not exist installed.ini goto :firstrun
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 检测启动参数...
@@ -383,6 +391,12 @@ if "%lng%"=="cn" (
     echo %RD%[ERROR] %WT% Error code：%errcode%
   )
 :end
+if "%lng%"=="cn" (
+    echo %GN%[INFO] %WT% 禁用python venv...
+  ) else (
+    echo %GN%[INFO] %WT% Deactivating python venv...
+  )
+if exist venv\Scripts\deactivate.bat call venv\Scripts\deactivate.bat
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 已停止运行。
     echo 按任意键退出。
