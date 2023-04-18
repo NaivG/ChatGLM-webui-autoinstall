@@ -88,6 +88,7 @@ set COMMANDLINE_ARGS=%ARGS% --model-path %model% --listen
 
 python webui.py %COMMANDLINE_ARGS%
 if errorlevel 1 set errcode=0x0101 running error & goto :runerr
+cd ..
 goto :end
 
 :runerr
@@ -101,7 +102,10 @@ if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% Attempt to change COMMANDLINE_ARGS?[Y,N]
   )
     choice -n -c yn >nul
-        if errorlevel == 2 goto :end
+        if errorlevel == 2 (
+	cd ..
+	goto :end
+	)
         if errorlevel == 1 (
 	cd ..
 	goto :changeargs
@@ -375,7 +379,10 @@ if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% Boot webui now?[Y,N]
   )
     choice -n -c yn >nul
-        if errorlevel == 2 goto :end
+        if errorlevel == 2 (
+	cd ..
+	goto :end
+	)
         if errorlevel == 1 (
 		cd ChatGLM-webui
 		goto :start
@@ -383,6 +390,7 @@ if "%lng%"=="cn" (
 goto :end
 
 :err
+cd ..
 if "%lng%"=="cn" (
     echo %RD%[ERROR] %WT% ·¢Éú´íÎó¡£
     echo %RD%[ERROR] %WT% ´íÎó´úÂë£º%errcode%
