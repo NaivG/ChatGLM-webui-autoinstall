@@ -178,7 +178,7 @@ if exist software\gcc.7z (
        del /q software\gcc.7z
     )
   )
-aria2c.exe --max-connection-per-server=16 --min-split-size=1M --dir software --out gcc.7z https://ghproxy.com/https://github.com/brechtsanders/winlibs_mingw/releases/download/12.2.0-16.0.0-10.0.0-ucrt-r5/winlibs-x86_64-posix-seh-gcc-12.2.0-llvm-16.0.0-mingw-w64ucrt-10.0.0-r5.7z
+aria2c.exe --max-connection-per-server=16 --min-split-size=1M --dir software --out gcc-installer.exe https://nuwen.net/files/mingw/mingw-18.0-without-git.exe
 if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% 正在安装gcc...
     echo %YW%[WARN] %WT% 安装完成后重新打开程序。
@@ -186,9 +186,13 @@ if "%lng%"=="cn" (
     echo %GN%[INFO] %WT% Installing gcc...
     echo %YW%[WARN] %WT% Complete the installation and reopen the program.
   )
-7z\7z x software\gcc.7z
+7z\7z x software\gcc-installer.exe
 echo %YW%[WARN] %WT% 杀软报错请同意。
-setx PATH "%PATH%;%~dp0mingw64\bin"
+setx PATH "%PATH%;%~dp0MinGW\bin"
+set X_MEOW=%~dp0MinGW\include;%~dp0MinGW\include\freetype2
+if defined C_INCLUDE_PATH (setx C_INCLUDE_PATH "%X_MEOW%;%C_INCLUDE_PATH%") else (setx C_INCLUDE_PATH "%X_MEOW%")
+if defined CPLUS_INCLUDE_PATH (setx CPLUS_INCLUDE_PATH "%X_MEOW%;%CPLUS_INCLUDE_PATH%") else (setx CPLUS_INCLUDE_PATH "%X_MEOW%")
+set X_MEOW=
 echo 按任意键退出。
 pause>nul
 exit
